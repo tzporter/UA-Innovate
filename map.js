@@ -10,8 +10,10 @@ console.log(projection([1,1]))
 
 const svg = d3
 .create('svg')
+.attr("viewBox", [0, 0, width, height])
 .attr('height', height)
-.attr('width', width);
+.attr('width', width)
+.attr("style", "max-width: 100%; height: auto;");
 
 const statesBackground = svg
 .append('path')
@@ -31,16 +33,6 @@ const stateCapitalElements = svg
 .data(data)
 .join('g');
 
-console.log(stateCapitalElements
-  .append('g'))
-
-stateCapitalElements
-.append('g')
-.attr(
-  'transform',
-  ({ longitude, latitude }) =>
-    `translate(${projection([longitude, latitude]).join(",")})`
-);
 
 const capitalGroups = stateCapitalElements
 .append('g')
@@ -58,6 +50,6 @@ capitalGroups
 .attr('font-size', 10)
 .attr('text-anchor', 'middle')
 .attr('y', -6)
-.text(({ description }) => description);
+.text(({ facility_name }) => facility_name);
 
 document.body.appendChild(svg.node())

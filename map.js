@@ -1,10 +1,12 @@
-// import * as d3 from 'd3'
-import us from '../data/states-albers-10m.json'
-import data from 
+import us from './states-albers-10m.json' assert { type: 'json' };
+import data from './data.json' assert { type: 'json' };
 
 const width = 975;
 const height = 610;
 const path = d3.geoPath();
+
+const projection = d3.geoAlbersUsa().scale(1300).translate([width/2, height/2])
+console.log(projection([1,1]))
 
 const svg = d3
 .create('svg')
@@ -28,6 +30,17 @@ const stateCapitalElements = svg
 .selectAll('g')
 .data(data)
 .join('g');
+
+console.log(stateCapitalElements
+  .append('g'))
+
+stateCapitalElements
+.append('g')
+.attr(
+  'transform',
+  ({ longitude, latitude }) =>
+    `translate(${projection([longitude, latitude]).join(",")})`
+);
 
 const capitalGroups = stateCapitalElements
 .append('g')
